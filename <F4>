@@ -106,42 +106,47 @@ const {Client} = require('pg');
     console.log(`How many times will loop?`, getFollowCount / 12);
     //scrolling for all following list scrapping
     for (var l = 0; l < getFollowCount / 12; l++) {
-      await page.$$eval(`body > div > div > div> ul > div > li`, list => {
-        console.log(`what is in the list? `, list);
-        //each lists in following window
-        list.forEach(e => {
+      await page.$$eval(
+        `body > div > div > div> ul > div > li`,
+        list => {
+          console.log(`what is in the list? `, list);
+          //each lists in following window
+          list.forEach(e => {
+            console.log(`db check client?`, client);
 
-          const userInfo = e
-            .querySelector(`body > div> div > div > ul > div > li > div`)
-            .innerText.split(/\n/g);
+            const userInfo = e
+              .querySelector(`body > div> div > div > ul > div > li > div`)
+              .innerText.split(/\n/g);
 
-          const profilePhoto = e.querySelector(
-           `body > div > div > div > ul > div > li > div > div > div > span > img`,
-          ).src;
-          console.log(
-            `ID : `,
-            userInfo[0] + `\n`,
-            `NAME :`,
-            userInfo[1] + `\n`,
-            `IMG : `,
-            profilePhoto,
-          );
+            const profilePhoto = e.querySelector(
+              `body > div > div > div > ul > div > li:nth-child(1) > div > div > div > span > img`,
+            ).src;
+            console.log(
+              `ID : `,
+              userInfo[0] + `\n`,
+              `NAME :`,
+              userInfo[1] + `\n`,
+              `IMG : `,
+              profilePhoto,
+            );
 
-          // add user Insta ID, Name, Picture into Postgre DB
-          //            client
-          //              .connect()
-          //              .then(e => console.log(e, `db connected to insert user info`))
-          //              .query(
-          //                `INSERT INTO insta_fans (user_name, user_id, profile_photo )
-          //			   VALUES('${userInfo[1]}','${userInfo[0]}','${profilePhoto}')`,
-          //              )
-          //              .then(results => console.table(results.rows))
-          //              .catch(e => console.log(e))
-          //              .finally(() => client.end());
+            // add user Insta ID, Name, Picture into Postgre DB
+            client
+              .connect()
+              .then(e => console.log(e, `db connected to insert user info`))
+              .query(
+                `INSERT INTO insta_fans (user_name, user_id, profile_photo )
+			   VALUES('${userInfo[1]}','${userInfo[0]}','${profilePhoto}')`,
+              )
+              .then(results => console.table(results.rows))
+              .catch(e => console.log(e))
+              .finally(() => client.end());
 
-          e.scrollIntoView({block: 'end', inline: 'end'});
-        });
-      });
+            e.scrollIntoView({block: 'end', inline: 'end'});
+          }, client);
+        },
+        client,
+      );
     }
     // get List of Following to get the length and making it looping
     await page.waitForSelector(`body > div > div > div > ul > div > li`);
