@@ -1,3 +1,17 @@
+// NOTICE
+
+// currently can looping all the following lists.
+// - need to select them all as an array
+// 	- need to select them in another page.$$eval function.
+// - need to put them into db postreSQL
+// 	- need to connect them by client syntax
+// - need to refactory these all functions by each of their usage.
+// 	-e.g, loading the `following list`, go to the profile screen, put them into db?
+// 	- the function put them into db should be combined with scrolling down of list with Following? yea?
+//
+//
+//
+//
 const puppeteer = require('puppeteer');
 const {Client} = require('pg');
 const {id, pw} = require('./account_config.json');
@@ -109,10 +123,7 @@ const {id, pw} = require('./account_config.json');
       `what will return from just $ func, considered height probably?`,
     );
 
-    // selectedListLength
-    // selectedListLength <= getFollowingCount
-
-    //fully scroll down until the last following person
+    //here is the line to be checked : fully scroll down until the last following person
     const multiply = 12;
     for (var l = 1; l < shouldBeLooping; l++) {
       console.log(`${l}th of loop`);
@@ -131,29 +142,44 @@ const {id, pw} = require('./account_config.json');
         `getFollowCount`,
         getFollowCount,
       );
-      // how many following still in left?
-      await page.waitForSelector(
-        `body > div> div > div> ul > div > li:nth-child(${l * multiply})`,
-      );
-      if (currentlyLoadedList <= getFollowCount) {
-        await page.$eval(
-          `body > div> div > div> ul > div > li:nth-child(${l * multiply}) `,
-          list => {
-            var userId = list.innerText.split(/\n/g)[0];
-            var userName = list.innerText.split(/\n/g)[1];
-            //  console.log(list.innerText.split(/\n/g));
-            list.scrollIntoView({block: 'end', inline: 'nearest'});
-          },
-        );
+      // if (currentlyLoadedList <= getFollowCount) {
+      try {
+        if (currentlyLoadedList <= getFollowCount) {
+          // how many following still in left?
+          await page.waitForSelector(
+            `body > div> div > div> ul > div > li:nth-child(${l * multiply})`,
+          );
+          // can get timeout error
+          await page.$eval(
+            `body > div> div > div> ul > div > li:nth-child(${l * multiply}) `,
+            list => {
+              var userId = list.innerText.split(/\n/g)[0];
+              var userName = list.innerText.split(/\n/g)[1];
+              console.table(userId, userName);
+              list.scrollIntoView({block: 'end', inline: 'nearest'});
+            },
+          );
+        } else {
+          console.log(`scrolling loop will break`);
+          break;
+        }
+      } catch (e) {
+        if (e.message.includes('timeout')) {
+          // scrolled following list should be inserted into D
+          console.log(`break this loop, would try to insert scrolled following lists`);
+  
+  	  break;
+       	}
       }
     }
-
+    console.log(`does script work down here?`);
     // get List of Following to get the length and making it looping
     await page.waitForSelector(`body > div > div > div > ul > div > li`);
     var followingList = await page.$$(
       `body > div> div > div> ul > div > li`,
       e => console.log(e),
     );
+    console.log(`does come out the following list length?`);
     console.log(`[Following list length] ${followingList.length} `);
   } catch (e) {
     console.log(e);
@@ -190,33 +216,8 @@ const {id, pw} = require('./account_config.json');
   } else {
     console.log(`should be unfollowed`);
   }
-
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
 })();
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //	for extracting username and id during loop
 //
