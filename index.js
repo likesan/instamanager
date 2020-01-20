@@ -7,7 +7,7 @@ const {Client} = require('pg');
     args: ['start-fullscreen', '--no-sandbox', '--disable-setuid-sandbox'],
     userDataDir: './zena',
     devtools: true,
-    slowMo: 250,
+    //slowMo: 250,
   });
 
   const page = await browser.newPage();
@@ -34,7 +34,7 @@ const {Client} = require('pg');
   await page.goto(
     'https://www.instagram.com/accounts/login/?source=auth_switcher',
     {
-      waitUntil: ['networkidle2'],
+      waitUntil: [`domcontentloaded`],
     },
   );
   console.log('puppeteer launch');
@@ -106,21 +106,47 @@ const {Client} = require('pg');
     const shouldBeLooping = getFollowCount / 12;
     console.log(`How many times will loop?`, shouldBeLooping);
 
+    console.log(
+      `what will return from just $ func, considered height probably?`,
+    );
+
+    // selectedListLength
+    // selectedListLength <= getFollowingCount
+
     //fully scroll down until the last following person
     const multiply = 12;
     for (var l = 1; l < shouldBeLooping; l++) {
-     
-	    console.log(`${l}th of loop`);
+      console.log(`${l}th of loop`);
+
+      // choose for the code block
+      const listSelector = `body > div> div > div> ul > div > li`;
+      await page.waitForSelector(`body > div> div > div> ul > div > li`);
+      //extracting currently checked list length
+      const currentlyLoadedList = await page.$$eval(
+        listSelector,
+        lists => lists.length,
+      );
+      console.log(
+        `currentlyLoadedList`,
+        currentlyLoadedList,
+        `getFollowCount`,
+        getFollowCount,
+      );
+      // how many following still in left?
       await page.waitForSelector(
-        `body > div> div > div> ul > div > li:nth-child(${l})`,
+        `body > div> div > div> ul > div > li:nth-child(${l * multiply})`,
       );
-      await page.$eval(
-        `body > div> div > div> ul > div > li:nth-child(${l}) `,
-        list => {
-          console.log(list);
-          list.scrollIntoView({block: 'end', inline: 'nearest'});
-        },
-      );
+      if (currentlyLoadedList <= getFollowCount) {
+        await page.$eval(
+          `body > div> div > div> ul > div > li:nth-child(${l * multiply}) `,
+          list => {
+            var userId = list.innerText.split(/\n/g)[0];
+            var userName = list.innerText.split(/\n/g)[1];
+            //  console.log(list.innerText.split(/\n/g));
+            list.scrollIntoView({block: 'end', inline: 'nearest'});
+          },
+        );
+      }
     }
 
     // get List of Following to get the length and making it looping
