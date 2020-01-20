@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const {Client} = require('pg');
+const {id, pw} = require('./account_config.json');
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -11,9 +12,6 @@ const {Client} = require('pg');
   });
 
   const page = await browser.newPage();
-  //init
-  const id = '6catmom.zena';
-  const pw = '2djr$$$';
   // POSTRESQL DB CONNECTION INIT
   var client = new Client({
     user: 'postgres',
@@ -38,8 +36,9 @@ const {Client} = require('pg');
     },
   );
   console.log('puppeteer launch');
-  /// login proc for no cookie mode
-
+  // Account INIT
+  console.log(`ID : ${id} \n PW : ${pw}`);
+  // login proc for no cookie mode
   try {
     //login proc
     await page.type(
