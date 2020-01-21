@@ -40,8 +40,7 @@ const {id, pw} = require('./account_config.json');
     .then(() => console.log(`postgres db connected successfully`))
     .then(() => client.query('SELECT * FROM insta_fans'))
     .then(results => console.table(results.rows))
-    .catch(e => console.log(e))
-    .finally(() => client.end());
+    .catch(e => console.log(e));
 
   await page.goto(
     'https://www.instagram.com/accounts/login/?source=auth_switcher',
@@ -125,7 +124,8 @@ const {id, pw} = require('./account_config.json');
 
     //here is the line to be checked : fully scroll down until the last following person
     const multiply = 12;
-    for (var l = 1; l < shouldBeLooping; l++) {
+
+    for (var l = 1; l <= shouldBeLooping; l++) {
       console.log(`${l}th of loop`);
 
       // choose for the code block
@@ -142,7 +142,6 @@ const {id, pw} = require('./account_config.json');
         `getFollowCount`,
         getFollowCount,
       );
-      // if (currentlyLoadedList <= getFollowCount) {
       try {
         if (currentlyLoadedList <= getFollowCount) {
           // how many following still in left?
@@ -152,26 +151,59 @@ const {id, pw} = require('./account_config.json');
           // can get timeout error
           await page.$eval(
             `body > div> div > div> ul > div > li:nth-child(${l * multiply}) `,
-            list => {
+            (list, err) => {
+              console.log(`what is in the list?, ${list}`);
+              var userProfileImg =
+                list.children[0].children[0].children[0].children[1].children[0]
+                  .src;
               var userId = list.innerText.split(/\n/g)[0];
               var userName = list.innerText.split(/\n/g)[1];
-              console.table(userId, userName);
+              console.table(userId, userName, userProfileImg);
               list.scrollIntoView({block: 'end', inline: 'nearest'});
             },
           );
         } else {
           console.log(`scrolling loop will break`);
+
           break;
         }
       } catch (e) {
         if (e.message.includes('timeout')) {
           // scrolled following list should be inserted into D
-          console.log(`break this loop, would try to insert scrolled following lists`);
-  
-  	  break;
-       	}
+          console.log(
+            `break this loop, would try to insert scrolled following lists`,
+          );
+          break;
+        }
       }
     }
+
+    //extracting currently checked list length
+    await page.$$eval(`body > div> div > div> ul > div > li`, lists => {
+      lists.length;
+      console.log(`check the loaded lists`, lists);
+
+      lists.forEach((list, client) => {
+        var userProfileImg =
+          list.children[0].children[0].children[0].children[1].children[0].src;
+        var userId = list.innerText.split(/\n/g)[0];
+        var userName = list.innerText.split(/\n/g)[1];
+
+        // add into db all lists
+        client.query(
+          `INSERT INTO insta_fans(user_name, user_insta_id, profile_photo) VALUES ('${userName}','${userId}','${userProfileImg}')`,
+          (err, res) => {
+            if (err) {
+              console.log(err.stack);
+            } else {
+              console.log(res, res.rows[0]);
+            }
+          },
+        );
+      });
+    });
+    console.log(`currentlyLoadedList`, currentlyLoadedList);
+
     console.log(`does script work down here?`);
     // get List of Following to get the length and making it looping
     await page.waitForSelector(`body > div > div > div > ul > div > li`);
