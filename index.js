@@ -107,7 +107,7 @@ const {id, pw} = require('./account_config.json');
     //here is the line to be checked : fully scroll down until the last following person
     const multiply = 12;
 
-    for (var l = 1; l <= shouldBeLooping ; l++) {
+    for (var l = 1; l <= 2; l++) {
       console.log(`${l}th of loop`);
 
       // choose for the code block
@@ -134,13 +134,6 @@ const {id, pw} = require('./account_config.json');
           await page.$eval(
             `body > div> div > div> ul > div > li:nth-child(${l * multiply}) `,
             (list, err) => {
-              console.log(`what is in the list?, ${list}`);
-              var userProfileImg =
-                list.children[0].children[0].children[0].children[1].children[0]
-                  .src;
-              var userId = list.innerText.split(/\n/g)[0];
-              var userName = list.innerText.split(/\n/g)[1];
-              console.table(userId, userName, userProfileImg);
               list.scrollIntoView({block: 'end', inline: 'nearest'});
             },
           );
@@ -161,52 +154,63 @@ const {id, pw} = require('./account_config.json');
     }
 
     //extracting followinglist to array
-    var followingList = await page.$$eval(
-      `body > div> div > div> ul > div > li`,
-      lists => {
-        console.log(`in lists?`, lists, typeof lists);
-        for (var list of lists) {
-          console.log(`list`, list);
+    var followingList = await page.$$(`body > div> div > div> ul > div > li`);
 
-          var userProfileImg =
-            list.children[0].children[0].children[0].children[1].children[0]
-              .src;
-          var userId = list.innerText.split(/\n/g)[0];
-          var userName = list.innerText.split(/\n/g)[1];
-
-          var arrayChunk = [];
-          arrayChunk.push({
-            userId: userId,
-            userName: userName,
-            userProfileImg: userProfileImg,
-          });
-
-          return arrayChunk;
-        }
-      },
+    for (var list of followingList) {
+      var userId = JSON.stringify(
+        await (await list.getProperty('innerText')).jsonValue(),
+      ).split(/\\n/g)[0].replace(/"/g,"");
+      
+      var userName = JSON.stringify(
+        await (await list.getProperty('innerText')).jsonValue(),
+      ).split(/\\n/g)[1].trim();
+      
+      //here we need check
+      var userProfileImg = await (
+        await list.evaluate(node=>node.)
     );
+
+      console.log(
+        `userId :`,
+        userId,
+        `\n userName :`,
+        userName,
+        `\n userProfileImg : `,
+        userProfileImg,
+      );
+      var arrayChunk = [];
+      arrayChunk.push({
+        userId: userId,
+        userName: userName,
+        userProfileImg: userProfileImg,
+      });
+
+      return arrayChunk;
+    }
+    console.log(arrayChunk); // it doesn't matter with here
+    if ((arrayChunk = !(null || undefined))) {
+      return arrayChunk;
+    } else {
+      console.log(`scrapping chunk didn't work!`);
+    }
     console.log(
       `did this chunk alreaady inserted into an array?`,
-      followingList,
+      followingList.length,
     );
     // if following list put into array succesfully, put them into db
     if (followingList.length > 0) {
+      console.log(`how many followings scrapped?`, followingList.length);
       for (var person of followingList) {
-        console.log('person?', person);
+        // console.log('person?', person);
         client
           .query(
             `INSERT INTO insta_fans(user_name, user_insta_id, profile_photo) VALUES ('${person.userName}','${person.userId}','${person.userProfileImg}')`,
           )
-          .then(res => console.log(res))
+          .then(res => console.log(res.row[0]))
           .catch(e => e.stack);
       }
     }
-    console.log(
-      `let's check we scrapped the following list or not!`,
-      followingList,
-    );
 
-    console.log(`does script work down here?`);
     // get List of Following to get the length and making it looping
     await page.waitForSelector(`body > div > div > div > ul > div > li`);
   } catch (e) {
