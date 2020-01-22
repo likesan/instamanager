@@ -1,17 +1,3 @@
-// NOTICE
-
-// currently can looping all the following lists.
-// - need to select them all as an array
-// 	- need to select them in another page.$$eval function.
-// - need to put them into db postreSQL
-// 	- need to connect them by client syntax
-// - need to refactory these all functions by each of their usage.
-// 	-e.g, loading the `following list`, go to the profile screen, put them into db?
-// 	- the function put them into db should be combined with scrolling down of list with Following? yea?
-//
-//
-//
-//
 const puppeteer = require('puppeteer');
 const {Client} = require('pg');
 const {id, pw} = require('./account_config.json');
@@ -118,14 +104,10 @@ const {id, pw} = require('./account_config.json');
     const shouldBeLooping = getFollowCount / 12;
     console.log(`How many times will loop?`, shouldBeLooping);
 
-    console.log(
-      `what will return from just $ func, considered height probably?`,
-    );
-
     //here is the line to be checked : fully scroll down until the last following person
     const multiply = 12;
 
-    for (var l = 1; l <= shouldBeLooping; l++) {
+    for (var l = 1; l <= shouldBeLooping ; l++) {
       console.log(`${l}th of loop`);
 
       // choose for the code block
@@ -178,41 +160,55 @@ const {id, pw} = require('./account_config.json');
       }
     }
 
-    //extracting currently checked list length
-    await page.$$eval(`body > div> div > div> ul > div > li`, lists => {
-      lists.length;
-      console.log(`check the loaded lists`, lists);
+    //extracting followinglist to array
+    var followingList = await page.$$eval(
+      `body > div> div > div> ul > div > li`,
+      lists => {
+        console.log(`in lists?`, lists, typeof lists);
+        for (var list of lists) {
+          console.log(`list`, list);
 
-      lists.forEach((list, client) => {
-        var userProfileImg =
-          list.children[0].children[0].children[0].children[1].children[0].src;
-        var userId = list.innerText.split(/\n/g)[0];
-        var userName = list.innerText.split(/\n/g)[1];
+          var userProfileImg =
+            list.children[0].children[0].children[0].children[1].children[0]
+              .src;
+          var userId = list.innerText.split(/\n/g)[0];
+          var userName = list.innerText.split(/\n/g)[1];
 
-        // add into db all lists
-        client.query(
-          `INSERT INTO insta_fans(user_name, user_insta_id, profile_photo) VALUES ('${userName}','${userId}','${userProfileImg}')`,
-          (err, res) => {
-            if (err) {
-              console.log(err.stack);
-            } else {
-              console.log(res, res.rows[0]);
-            }
-          },
-        );
-      });
-    });
-    console.log(`currentlyLoadedList`, currentlyLoadedList);
+          var arrayChunk = [];
+          arrayChunk.push({
+            userId: userId,
+            userName: userName,
+            userProfileImg: userProfileImg,
+          });
+
+          return arrayChunk;
+        }
+      },
+    );
+    console.log(
+      `did this chunk alreaady inserted into an array?`,
+      followingList,
+    );
+    // if following list put into array succesfully, put them into db
+    if (followingList.length > 0) {
+      for (var person of followingList) {
+        console.log('person?', person);
+        client
+          .query(
+            `INSERT INTO insta_fans(user_name, user_insta_id, profile_photo) VALUES ('${person.userName}','${person.userId}','${person.userProfileImg}')`,
+          )
+          .then(res => console.log(res))
+          .catch(e => e.stack);
+      }
+    }
+    console.log(
+      `let's check we scrapped the following list or not!`,
+      followingList,
+    );
 
     console.log(`does script work down here?`);
     // get List of Following to get the length and making it looping
     await page.waitForSelector(`body > div > div > div > ul > div > li`);
-    var followingList = await page.$$(
-      `body > div> div > div> ul > div > li`,
-      e => console.log(e),
-    );
-    console.log(`does come out the following list length?`);
-    console.log(`[Following list length] ${followingList.length} `);
   } catch (e) {
     console.log(e);
   }
@@ -249,45 +245,3 @@ const {id, pw} = require('./account_config.json');
     console.log(`should be unfollowed`);
   }
 })();
-
-//
-//	for extracting username and id during loop
-//
-//	//          const userInfo = e
-//            .querySelector(`body > div> div > div > ul > div > li > div`)
-//            .innerText.split(/\n/g);
-//
-//          console.log(`is E cannot captured?`, e);
-//          const profilePhoto = e.querySelector(
-//            `body > div > div > div > ul > div > li:nth-child(1) > div > div > div > a > img`,
-//          ).src;
-//          console.log(
-//            `ID : `,
-//            userInfo[0] + `\n`,
-//            `NAME :`,
-//            userInfo[1] + `\n`,
-//            `IMG : `,
-//            profilePhoto,
-//          );
-//
-// add user Insta ID, Name, Picture into Postgre DB
-//            client
-//              .connect()
-//              .then(e => console.log(e, `db connected to insert user info`))
-//              .query(
-//                `INSERT INTO insta_fans (user_name, user_id, profile_photo )
-//			   VALUES('${userInfo[1]}','${userInfo[0]}','${profilePhoto}')`,
-//              )
-//              .then(results => console.table(results.rows))
-//              .catch(e => console.log(e))
-//              .finally(() => client.end());
-//
-//
-//
-//
-//	 var followingUser =  e.querySelector(`body > div > div > div> ul > div > li > div`).innerText;
-//	var userInfo = followingUser.split(/\n/g);
-//var userId = userInfo[0];
-//var userName = userInfo[1];
-//
-//console.log(`userId : `, userId, `\n`, `userName :`, userName);
