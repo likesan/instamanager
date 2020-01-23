@@ -155,20 +155,26 @@ const {id, pw} = require('./account_config.json');
 
     //extracting followinglist to array
     var followingList = await page.$$(`body > div> div > div> ul > div > li`);
-
+    console.log(`followinList`, followingList);
     for (var list of followingList) {
       var userId = JSON.stringify(
         await (await list.getProperty('innerText')).jsonValue(),
-      ).split(/\\n/g)[0].replace(/"/g,"");
-      
+      )
+        .split(/\\n/g)[0]
+        .replace(/"/g, '');
+
       var userName = JSON.stringify(
         await (await list.getProperty('innerText')).jsonValue(),
-      ).split(/\\n/g)[1].trim();
-      
-      //here we need check
-      var userProfileImg = await (
-        await list.evaluate(node=>node.)
-    );
+      )
+        .split(/\\n/g)[1]
+        .trim();
+
+
+      var userProfileImg = await list.evaluate(node => {
+        return node.lastChild.childNodes[0].children[0].children[1].children[0]
+          .src;
+      });
+
 
       console.log(
         `userId :`,
