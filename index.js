@@ -1,10 +1,13 @@
 const puppeteer = require('puppeteer');
 const {Client} = require('pg');
 const {id, pw} = require('./account_config.json');
-
+const readLine = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ['start-fullscreen', '--no-sandbox', '--disable-setuid-sandbox'],
     userDataDir: './zena',
     devtools: true,
@@ -12,6 +15,12 @@ const {id, pw} = require('./account_config.json');
   });
 
   const page = await browser.newPage();
+ 
+ // USER INPUT
+//  readLine.question(`What do you want me to do? \n 1. Make a db by all following list of my account \n2`, answer=>{
+//  
+//  })
+ 
   // POSTRESQL DB CONNECTION INIT
   var client = new Client({
     user: 'postgres',
@@ -36,7 +45,8 @@ const {id, pw} = require('./account_config.json');
   );
   console.log('puppeteer launch');
   // Account INIT
-  console.log(`ID : ${id} \n PW : ${pw}`);
+  console.log(`LOGIN INFO`);
+  console.table([id, pw]);
   // login proc for no cookie mode
   try {
     //login proc
@@ -107,7 +117,7 @@ const {id, pw} = require('./account_config.json');
     //here is the line to be checked : fully scroll down until the last following person
     const multiply = 12;
 
-    for (var l = 1; l <= 2; l++) {
+    for (var l = 1; l <= shouldBeLooping; l++) {
       console.log(`${l}th of loop`);
 
       // choose for the code block
@@ -118,12 +128,7 @@ const {id, pw} = require('./account_config.json');
         listSelector,
         lists => lists.length,
       );
-      console.log(
-        `currentlyLoadedList`,
-        currentlyLoadedList,
-        `getFollowCount`,
-        getFollowCount,
-      );
+      console.table([currentlyLoadedList, getFollowCount]);
       try {
         if (currentlyLoadedList <= getFollowCount) {
           // how many following still in left?
@@ -155,7 +160,7 @@ const {id, pw} = require('./account_config.json');
 
     //extracting followinglist to array
     var followingList = await page.$$(`body > div> div > div> ul > div > li`);
-    console.log(`followinList`, followingList);
+    var arrayChunk = [];
     for (var list of followingList) {
       var userId = JSON.stringify(
         await (await list.getProperty('innerText')).jsonValue(),
@@ -165,54 +170,39 @@ const {id, pw} = require('./account_config.json');
 
       var userName = JSON.stringify(
         await (await list.getProperty('innerText')).jsonValue(),
-      )
-        .split(/\\n/g)[1]
-        .trim();
-
+      ).split(/\\n/g)[1];
 
       var userProfileImg = await list.evaluate(node => {
-        return node.lastChild.childNodes[0].children[0].children[1].children[0]
-          .src;
+        //      console.table([
+        //        node.childNodes[0].childNodes[0].childNodes[0].childNodes[1]
+        //          .childNodes[0].src,
+        //      ]);
+        return node.childNodes[0].childNodes[0].childNodes[0].childNodes[1]
+          .childNodes[0].src;
       });
 
-
+      var trimmedImg = userProfileImg.substring(0, 30);
       console.log(
-        `userId :`,
-        userId,
-        `\n userName :`,
-        userName,
-        `\n userProfileImg : `,
-        userProfileImg,
+        `Did $$ got the list in followingList[${followingList.length}]`,
       );
-      var arrayChunk = [];
+      console.table([userId, userName, trimmedImg]);
+
       arrayChunk.push({
         userId: userId,
         userName: userName,
         userProfileImg: userProfileImg,
       });
+    }
 
-      return arrayChunk;
-    }
-    console.log(arrayChunk); // it doesn't matter with here
-    if ((arrayChunk = !(null || undefined))) {
-      return arrayChunk;
-    } else {
-      console.log(`scrapping chunk didn't work!`);
-    }
-    console.log(
-      `did this chunk alreaady inserted into an array?`,
-      followingList.length,
-    );
     // if following list put into array succesfully, put them into db
-    if (followingList.length > 0) {
-      console.log(`how many followings scrapped?`, followingList.length);
-      for (var person of followingList) {
-        // console.log('person?', person);
+    if (arrayChunk.length > 0) {
+      console.log(`how many followings scrapped?`, arrayChunk.length);
+      for (var person of arrayChunk) {
         client
           .query(
-            `INSERT INTO insta_fans(user_name, user_insta_id, profile_photo) VALUES ('${person.userName}','${person.userId}','${person.userProfileImg}')`,
+            `INSERT INTO insta_fans(user_name, user_insta_id, profile_photo) VALUES ('${person.userName}','${person.userId}','${person.userProfileImg}') returning user_name`,
           )
-          .then(res => console.log(res.row[0]))
+          .then(result => console.table(result.rows))
           .catch(e => e.stack);
       }
     }
