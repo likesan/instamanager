@@ -43,18 +43,32 @@ const readLine = require('readline').createInterface({
 
     await page.waitForNavigation({waitUntill: `domcontentloaded`});
 
-    await page.evaluate(() => {
-      var like = document.evaluate(
-        `/html/body/div[1]/section/main/section/div[2]/div[1]/div/article/div[2]/section[1]/span[1]/button`,
-        document,
-        null,
-        XPathResult.FIRST_ORDERED_NODE_TYPE,
-        null,
-      ).singleNodeValue;
+    var grabLikesCounts = await page.$x(
+      `/html/body/div[1]/section/main/section/div[2]/div[1]/div/article/div[2]/section[1]/span[1]/button`,
+    ).length;
+    console.log(`how many xpath can grap?`, grabLikesCounts);
+    for (var n = 1; n <= grabLikesCounts; n++) {
+      await page.evaluate(n => {
+        console.log(`n`, n);
+        var like = document.evaluate(
+          `/html/body/div[1]/section/main/section/div[2]/div[1]/div/article[${n}]/div[2]/section[1]/span[1]/button`,
+          document,
+          null,
+          XPathResult.FIRST_ORDERED_NODE_TYPE,
+          null,
+        ).singleNodeValue;
 
-      like.focus();
-      like.click();
-    });
+        try {
+          like.focus();
+          like.click();
+        } catch (e) {
+          if (e.stack.includes(`null`)) {
+            console.log(`reached maximum likes`);
+            window.scrollBy(0, document.body.scrollHeight);
+          }
+        }
+      }, n);
+    }
   };
   // POSTRESQL DB CONNECTION INIT
   var client = new Client({
