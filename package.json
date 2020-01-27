@@ -6,7 +6,8 @@
   "dependencies": {
     "pg": "^7.17.1",
     "puppeteer": "^2.0.0",
-    "puppeteer-autoscroll-down": "^0.1.2"
+    "puppeteer-autoscroll-down": "^0.1.2",
+    "readline-sync": "^1.4.10"
   },
   "devDependencies": {},
   "scripts": {
