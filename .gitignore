@@ -1,3 +1,5 @@
+# Ignore 
+
 node_modules*
 zena*
 zena-cookie-folder*
@@ -5,9 +7,14 @@ tags
 .index.js.*
 account_config.json
 *.sw*
-
-
+/.*.*.sw*
 /*
 
+
+
+# Allow
+
+!functions/*
+!functions/
 
 

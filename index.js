@@ -44,13 +44,14 @@ const {
       console.log(`loginInfo proc check`, loginInfo(chooseAccount));
 
       const browser = await puppeteer.launch({
-            headless: true,
+            headless: false,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             userDataDir: `./${id}`,
             devtools: true,
       });
 
       const page = await browser.newPage();
+      new Promise(res=>browser.on(`targetcreated`,res));
       const loginScreenUrl = `https://www.instagram.com/accounts/login/?source=auth_switcher`;
       await page.goto(loginScreenUrl, {waitUntil: `networkidle2`});
 
@@ -68,7 +69,7 @@ const {
             await Promise.all([
                   page.click('[type="submit"]'),
                   page.waitForNavigation({
-                        waitUntil: 'networkidle0',
+                        waituntil: 'networkidle0',
                   }),
             ]);
 
