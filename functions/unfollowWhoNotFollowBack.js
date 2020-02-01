@@ -23,19 +23,18 @@ function dbInitCheck(id, pw, db, client) {
       return table;
 }
 
-async function pickTargetIdFromDB(table, client) {
+async function getFollowingUsersFromDB(table, client) {
       const selectProc = await client.query(
-            `SELECT user_insta_id FROM ${table} order by id asc limit 1`,
+            `SELECT user_insta_id FROM ${table} ORDER BY id
+`,
       );
-      const result = await selectProc.rows[0].user_insta_id;
+      const followingListResult = await selectProc.rows;
 
-      console.table([result]);
-
-      return result;
+      return followingListResult;
 }
 
 async function followMeBackChecker(id, page) {
-      var followListButtonSelector = `#react-root > section > main > div > header > section > ul > li:nth-child(2) > a`;
+      var followListButtonSelector = `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a`;
 
       //click the follower list button in profile
       await page.waitForSelector(followListButtonSelector);
@@ -46,18 +45,16 @@ async function followMeBackChecker(id, page) {
             followListButton.click();
       }, followListButtonSelector);
 
-      //look up my id on his follower list
-      //   await page.waitForNavigation({waitUntil: 'networkidle2'});
       await page.on('dialog', async dialog => {
             console.log(dialog, dialog.message());
       });
-      var followListDivSelector = `body > div > div > div:nth-child(2)`;
+      var followListDivSelector = `body > div> div > div:nth-child(3)`;
 
       await page.waitForSelector(followListDivSelector);
       const result = await page.evaluate(
             (id, followListDivSelector) => {
                   var followListDiv = document.querySelector(
-                        `body > div > div > div:nth-child(2)`,
+                        `body > div > div > div:nth-child(3)`,
                   ).innerText;
                   console.table([followListDiv]);
                   console.log(`comparing with my 'id'`, id);
@@ -71,24 +68,62 @@ async function followMeBackChecker(id, page) {
       return result;
 }
 
+async function closeFollowingWindow(page) {
+      await page.evaluate(() => {
+            var closingFollowerWindowButton = document.querySelector(
+                  `body > div> div > div:nth-child(1) > div > div:nth-child(3) > button`,
+            );
+
+            closingFollowerWindowButton.click();
+      });
+}
+
+async function unfollowProc(page) {
+      await page.evaluate(() => {
+            var unfollowButton = document.querySelector(
+                  `#react-root > section > main > div > header > section > div> div> span > span> button`,
+            );
+            unfollowButton.click();
+
+            var unfollowConfirmButton = document.querySelector(
+                  `body > div > div > div > div > button`,
+            );
+            unfollowConfirmButton.click();
+      });
+}
+
 async function unfollowWhoNotFollowBack(page, id, pw, db, client) {
       console.table([id, pw, db]);
 
       const table = dbInitCheck(id, pw, db, client);
-      const targetUserId = await pickTargetIdFromDB(table, client);
-      console.log(`targetUserId`, targetUserId);
+      const followingUsers = await getFollowingUsersFromDB(table, client);
+      console.log(followingUsers);
 
-      await page.goto(`https://instagram.com/${targetUserId}`, {
-            waituntil: 'networkidle2',
-      });
+      for (var rawFollowingUser of followingUsers) {
+            var followingUser = rawFollowingUser.user_insta_id;
+            console.log(`will check ${followingUser} follow me or not`);
+            await page.goto(`https://instagram.com/${followingUser}`, {
+                  waituntil: 'networkidle2',
+            });
 
-      console.log(page.url());
+            console.log(page.url());
 
-      const isHeFollowMeBack = await followMeBackChecker(id, page);
-      console.log(`Is he follow me back?`, isHeFollowMeBack);
+            const isHeFollowMeBack = await followMeBackChecker(id, page);
+            console.log(`Is he follow me back?`, isHeFollowMeBack);
 
-//if he is following me up, I'll call to check next follower checker from.. pickTargetIdFromDB function
+            //if he is following me up, I'll call to check next follower checker from.. pickTargetIdFromDB function
 
+            if (isHeFollowMeBack) {
+                  //1. close window - find next following listed user
+                  closeFollowingWindow(page);
+                  console.log(`will keep follow ${followingUser}`);
+            } else {
+                  //1. close winodw - select unfollow button - click - find next following listed user
+
+                  closeFollowingWindow(page);
+                  unfollowProc(page);
+            }
+      }
 }
 
 module.exports = {

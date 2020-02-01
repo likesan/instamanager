@@ -1,3 +1,9 @@
-2020/01/31-13:14:30.518 55a9 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2020/01/31-13:14:30.518 55a9 Recovering log #19
-2020/01/31-13:14:30.532 55a9 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000019.log 
+2020/02/01-16:34:06.977 2a7c Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/01-16:34:06.977 2a7c Recovering log #19
+2020/02/01-16:34:07.007 2a7c Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000019.log 
+2020/02/01-16:34:08.950 2b1d Level-0 table #24: started
+2020/02/01-16:34:08.972 2b1d Level-0 table #24: 1321585 bytes OK
+2020/02/01-16:34:08.975 2b1d Delete type=0 #19
+2020/02/01-16:40:35.447 2b1d Level-0 table #26: started
+2020/02/01-16:40:35.477 2b1d Level-0 table #26: 1461229 bytes OK
+2020/02/01-16:40:35.479 2b1d Delete type=0 #23
