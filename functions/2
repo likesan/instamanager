@@ -7,7 +7,6 @@ function dbInitCheck(id, pw, db, client) {
       var table = '';
       switch (db) {
             case `sj`:
-                  table = `sj_insta`;
                   break;
             case `catsns`:
                   table = `insta_fans`;
@@ -57,25 +56,18 @@ async function followMeBackChecker(id, page) {
       await page.on('dialog', async dialog => {
             console.log(dialog, dialog.message());
       });
+      var followListDivSelector = `body > div> div > div:nth-child(3)`;
 
-      await page.waitForXPath('/html/body/div[4]/div/div[2]');
+      await page.waitForSelector(followListDivSelector);
       const result = await page.evaluate(
-            (id, usersFollowingCounts) => {
+            (id, followListDivSelector, usersFollowingCounts) => {
                   // scroll should be top down...
                   // it could take some time
-                  var followListDiv = document.evaluate(
-                        '/html/body/div[4]/div/div[2]',
-                        document,
-                        null,
-                        XPathResult.FIRST_ORDERED_NODE_TYPE,
-                        null,
-                  ).singleNodeValue;
-                  console.log(`followListDiv`, followListDiv);
-                  while (
-                        followListDiv.scrollHeight <=
-                        usersFollowingCounts * 53.97
-                  ) {
-                        console.log(followListdiv.scrollHeight);
+                  var followListDiv = document.querySelector(
+                        `body > div > div > div:nth-child(3)`,
+                  );
+
+                  while (followListDiv.scrollHeight <= usersFollowingCounts * 53.97) {
                         followListDiv.scrollBy(0, followListDiv.scrollHeight);
                   }
                   console.table([followListDiv.innerText]);
@@ -84,6 +76,7 @@ async function followMeBackChecker(id, page) {
                   return isHeFollowMe;
             },
             id,
+            followListDivSelector,
             usersFollowingCounts,
       );
 
@@ -110,11 +103,11 @@ async function unfollowProc(page) {
                   console.log(`already we don't follow this account `);
             } else {
                   unfollowButton.click();
-                  var unfollowConfirmButton = document.querySelector(
-                        `body > div > div > div > div > button`,
-                  );
-                  unfollowConfirmButton.click();
             }
+            var unfollowConfirmButton = document.querySelector(
+                  `body > div > div > div > div > button`,
+            );
+            unfollowConfirmButton.click();
       });
 }
 
