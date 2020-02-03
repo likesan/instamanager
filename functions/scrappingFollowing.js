@@ -1,13 +1,34 @@
 const puppeteer = require('puppeteer');
 const {Client} = require('pg');
 
-async function followingDivScrollingDown(page, usersFollowingCounts) {}
+async function repeatScrollingDivToCompleteScrapping(
+      id,
+      page,
+      usersFollowingCounts,
+) {
+      await page.goto(`https://instagram.com/${id}`);
+      await toTheFollowingPopup(page);
+      await scrollDownUntilTheDivEnd(page, usersFollowingCounts);
+}
 
-async function getFollowingPeopleFromScrolledDiv(page) {
+async function getFollowingListInfoToArrayAfterScrollingDown(page) {
       //extracting followinglist to array
-      var followingList = await page.$$(`body > div> div > div> ul > div > li`);
+
+      const followingListSelector = `body > div> div > div> ul > div > li`;
+      await page.waitForSelector(followingListSelector);
+      const followingList = await page.$$(followingListSelector, list => list);
+
+      console.log(
+            `how many children in followingList?, and how many it will be iterated?`,
+            followingList.length,
+            `what type of followingList?`,
+            typeof followingList,
+            `Is it array?`,
+            Array.isArray(followingList),
+      );
+
       var arrayChunk = [];
-      for (var list of followingList) {
+      for (const [i, list] of followingList.entries()) {
             var userId = JSON.stringify(
                   await (await list.getProperty('innerText')).jsonValue(),
             )
@@ -21,19 +42,18 @@ async function getFollowingPeopleFromScrolledDiv(page) {
             // userName if it's empty, then 'Following' string captured, so replace them with userId
             if (userName.includes(`Following`)) {
                   userName = userId;
-                  return userName;
             }
 
             console.log(`userName test`, userName);
-            var userProfileImg = await list.evaluate(node => {
-                  return node.childNodes[0].childNodes[0].childNodes[0]
-                        .childNodes[1].childNodes[0].src;
-            });
+            var userProfileImg = await list.evaluate(
+                  node =>
+                        node.childNodes[0].childNodes[0].childNodes[0]
+                              .childNodes[1].childNodes[0].src,
+            );
 
             var trimmedImg = userProfileImg.substring(0, 30);
-            console.log(
-                  `Did $$ got the list in followingList[${followingList.length}]`,
-            );
+
+            console.log(`${i}th of arrayChunk with followingScrappedArray`);
             console.table([userId, userName, trimmedImg]);
 
             arrayChunk.push({
@@ -41,7 +61,9 @@ async function getFollowingPeopleFromScrolledDiv(page) {
                   userName: userName,
                   userProfileImg: userProfileImg,
             });
+            console.log(`currently, scrapped array ${i}`, arrayChunk.length);
       }
+      return arrayChunk;
 }
 
 async function getUsersFollowingCounts(page) {
@@ -60,7 +82,7 @@ async function getUsersFollowingCounts(page) {
       return usersFollowingCounts;
 }
 
-async function loopingAllListsInFollowing(page, usersFollowingCounts) {
+async function scrollDownUntilTheDivEnd(page, usersFollowingCounts) {
       const shouldBeLooping = usersFollowingCounts / 12;
       const multiply = 12;
       for (var l = 1; l <= shouldBeLooping; l++) {
@@ -104,11 +126,24 @@ async function loopingAllListsInFollowing(page, usersFollowingCounts) {
       }
 }
 
-async function insertIntoDBFromScrapping(arrayChunk, client, table) {
+async function insertScrappedFollowingArrayToDB(
+      followingScrappedArray,
+      client,
+      table,
+) {
       // if following list put into array succesfully, put them into db
-      if (arrayChunk.length > 0) {
-            console.log(`how many followings scrapped?`, arrayChunk.length);
-            for (var person of arrayChunk) {
+      console.log(
+            'check the entered followingScrappedArray contents',
+            Array.isArray(followingScrappedArray),
+            followingScrappedArray.length,
+      );
+      console.table([followingScrappedArray]);
+      if (followingScrappedArray.length > 0) {
+            console.log(
+                  `how many followings scrapped?`,
+                  followingScrappedArray,
+            );
+            for (var person of followingScrappedArray) {
                   client.query(
                         'INSERT INTO ' +
                               table +
@@ -117,7 +152,14 @@ async function insertIntoDBFromScrapping(arrayChunk, client, table) {
                   )
                         .then(result => {
                               console.table(result.rows[0]);
-                              console.log('scrapping into DB finished!');
+                              if (
+                                    result.rows.length ==
+                                    followingScrappedArray.length
+                              ) {
+                                    console.log(
+                                          `successfully ALL following data inserted into DB :D!`,
+                                    );
+                              }
                         })
                         .catch(e => console.error(e));
             }
@@ -229,15 +271,37 @@ scrappingFollowing = async (page, id, pw, db) => {
 
       await toTheFollowingPopup(page);
 
-      //get my following numbers
-
       var usersFollowingCounts = await getUsersFollowingCounts(page);
 
-      await loopingAllListsInFollowing(page, usersFollowingCounts);
+      //if timeout just happens because network weaks, re-execute the page, and the functions
+      try {
+            await scrollDownUntilTheDivEnd(page, usersFollowingCounts);
+      } catch (e) {
+            if (e.message.includes(`timeout`)) {
+                  await repeatScrollingDivToCompleteScrapping(
+                        id,
+                        page,
+                        usersFollowingCounts,
+                  );
+            }
+            console.error(e.stack);
+      }
 
-      await getFollowingPeopleFromScrolledDiv(page);
+      var followingScrappedArray = await getFollowingListInfoToArrayAfterScrollingDown(
+            page,
+      );
 
-      await insertIntoDBFromScrapping(arrayChunk, client, table);
+      console.log(
+            `check the result following scrapped array`,
+            followingScrappedArray.length,
+            followingScrappedArray,
+      );
+
+      await insertScrappedFollowingArrayToDB(
+            followingScrappedArray,
+            client,
+            table,
+      );
 };
 module.exports = {
       scrappingFollowing,
