@@ -1,3 +1,16 @@
-2020/02/02-19:21:55.605 cbc Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2020/02/02-19:21:55.605 cbc Recovering log #25
-2020/02/02-19:21:55.612 cbc Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000025.log 
+2020/02/04-14:12:01.047 4815 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/04-14:12:01.047 4815 Recovering log #69
+2020/02/04-14:12:01.050 4815 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000069.log 
+2020/02/04-14:12:19.461 4857 Compacting 2@0 + 1@1 files
+2020/02/04-14:12:19.481 4857 Generated table #72@0: 2080 keys, 121532 bytes
+2020/02/04-14:12:19.481 4857 Compacted 2@0 + 1@1 files => 121532 bytes
+2020/02/04-14:12:19.484 4857 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/04-14:12:19.484 4857 Delete type=2 #66
+2020/02/04-14:12:19.484 4857 Delete type=2 #68
+2020/02/04-14:12:19.484 4857 Delete type=2 #70
+2020/02/04-14:12:23.740 4857 Level-0 table #74: started
+2020/02/04-14:12:23.777 4857 Level-0 table #74: 1473382 bytes OK
+2020/02/04-14:12:23.799 4857 Delete type=0 #69
+2020/02/04-14:12:40.829 4857 Level-0 table #76: started
+2020/02/04-14:12:41.172 4857 Level-0 table #76: 1418694 bytes OK
+2020/02/04-14:12:41.758 4857 Delete type=0 #73

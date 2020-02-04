@@ -152,6 +152,14 @@ async function insertScrappedFollowingArrayToDB(
                   )
                         .then(result => {
                               console.table(result.rows[0]);
+                              console.log(
+                                    `How many rows are fulfilled?`,
+                                    result.rows.length,
+                              );
+                              console.log(
+                                    `How many rows should be fulfilled?`,
+                                    followingScrappedArray.length,
+                              );
                               if (
                                     result.rows.length ==
                                     followingScrappedArray.length
