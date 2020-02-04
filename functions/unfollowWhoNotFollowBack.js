@@ -35,65 +35,76 @@ async function getFollowingUsersFromDB(table, client) {
 }
 
 async function followMeBackChecker(id, page) {
-      var followListButtonSelector = `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a`;
+      try {
+            var followListButtonSelector = `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a`;
 
-      const usersFollowingCounts = await page.evaluate(() =>
-            parseInt(
-                  document.querySelector(
-                        `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a > span`,
-                  ).innerText,
-            ),
-      );
+            const usersFollowingCounts = await page.evaluate(() =>
+                  parseInt(
+                        document.querySelector(
+                              `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a > span`,
+                        ).innerText,
+                  ),
+            );
 
-      console.table([{usersFollowingCounts: usersFollowingCounts}]);
+            console.table([{usersFollowingCounts: usersFollowingCounts}]);
 
-      //click the follower list button in profile
-      await Promise.all([
-            await page.waitForSelector(followListButtonSelector),
-            await page.evaluate(followListButtonSelector => {
-                  var followListButton = document.querySelector(
-                        followListButtonSelector,
-                  );
-                  followListButton.click();
-            }, followListButtonSelector),
-      ]);
-      await page.waitForSelector('body > div> div > div> ul > div');
-      const followingListDivHandler = await page.$(
-            `body > div> div > div> ul > div`,
-      );
-      const followingListScrollHeight = await page.evaluate(
-            div => div.scrollHeight,
-            followingListDivHandler,
-      );
+            //click the follower list button in profile
+            await Promise.all([
+                  await page.waitForSelector(followListButtonSelector),
+                  await page.evaluate(followListButtonSelector => {
+                        var followListButton = document.querySelector(
+                              followListButtonSelector,
+                        );
+                        followListButton.click();
+                  }, followListButtonSelector),
+            ]);
+            await page.waitForSelector('body > div> div > div> ul > div',{timeout:5000});
+            const followingListDivHandler = await page.$(
+                  `body > div> div > div> ul > div`,
+            );
+            const followingListScrollHeight = await page.evaluate(
+                  div => div.scrollHeight,
+                  followingListDivHandler,
+            );
 
-      console.log(`Did followingListDiv height?`, followingListScrollHeight);
-      const currentUlHeight = followingListScrollHeight;
-      const shouldBeScrolledHeight = usersFollowingCounts * 53.97;
+            console.log(
+                  `Did followingListDiv height?`,
+                  followingListScrollHeight,
+            );
+            const currentUlHeight = followingListScrollHeight;
+            const shouldBeScrolledHeight = usersFollowingCounts * 53.97;
 
-      console.table([
-            {shouldBeScrolledHeight: shouldBeScrolledHeight},
-            {currentUlHeight: currentUlHeight},
-      ]);
-      const li = await page.evaluateHandle(() => {
-            return document.querySelector(`body>div>div>div>ul>div`).lastChild;
-      });
+            console.table([
+                  {shouldBeScrolledHeight: shouldBeScrolledHeight},
+                  {currentUlHeight: currentUlHeight},
+            ]);
 
-      console.log(`li`, li);
+            //scrolling down until the following ul reaches bottom
+            for (var l = 1; l <= usersFollowingCounts / 12; l++) {
+                  console.log(l, usersFollowingCounts / 12);
+                  await page.evaluateHandle(() => {
+                        document
+                              .querySelector(`body>div>div>div>ul>div`)
+                              .lastChild.scrollIntoView();
+                  });
+            }
 
-      //scrolling down until the following ul reaches bottom
-      while (currentUlHeight <= shouldBeScrolledHeight) {
-            li.focus();
+            const followingListInnerText = await page.evaluate(
+                  div => div.innerText,
+                  followingListDivHandler,
+            );
+            console.log(`followingListInnerText`, followingListInnerText);
+            console.log(`comparing with my 'id'`, id);
+            var isHeFollowMe = followingListInnerText.includes(`${id}`);
+            // send error
+            return isHeFollowMe;
+      } catch (e) {
+            if (e.message.includes(`innerText`)) {
+                  return (isHeFollowMe = false);
+            } else {
+                  console.error(e);
+            }
       }
-
-      const followingListInnerText = await page.evaluate(
-            div => div.innerText,
-            followingListDivHandler,
-      );
-      console.table([{followingListInnerText: followingListInnerText}]);
-      console.log(`comparing with my 'id'`, id);
-      var isHeFollowMe = followingListInnerText.includes(`${id}`);
-      // send error
-      return isHeFollowMe;
 }
 
 async function closeFollowingWindow(page) {
@@ -107,36 +118,46 @@ async function closeFollowingWindow(page) {
 }
 
 async function unfollowProc(page, client, table, targetFollowingUserId) {
-      await page.evaluate(
-            (client, table, targetFollowingUserId) => {
-                  var unfollowButton = document.querySelector(
-                        `#react-root > section > main > div > header > section > div> div> span > span> button`,
-                  );
-
-                  if (unfollowButton.innerText == `Follow`) {
-                        console.log(`already we don't follow this account `);
-                  } else {
-                        unfollowButton.click();
-                        var unfollowConfirmButton = document.querySelector(
-                              `body > div > div > div > div > button`,
+      try {
+            await page.evaluate(
+                  (client, table, targetFollowingUserId) => {
+                        var unfollowButton = document.querySelector(
+                              `#react-root > section > main > div > header > section > div> div> span > span> button`,
                         );
-                        unfollowConfirmButton.click();
 
-                        //delete from that id in my db
-                        client.query(
-                              'DELETE FROM' +
-                                    table +
-                                    'WHERE user_insta_id= $1 RETURNING user_insta_id',
-                              [targetFollowingUserId],
-                        )
-                              .then(result => console.log(result.rows[0]))
-                              .catch(e => console.error(e.message));
-                  }
-            },
-            client,
-            table,
-            targetFollowingUserId,
-      );
+                        if (unfollowButton.innerText == `Follow`) {
+                              console.log(
+                                    `already we don't follow this account `,
+                              );
+                        } else {
+                              unfollowButton.click();
+                              var unfollowConfirmButton = document.querySelector(
+                                    `body > div > div > div > div > button`,
+                              );
+                              unfollowConfirmButton.click();
+
+                              //delete from that id in my db
+                              client.query(
+                                    'DELETE FROM' +
+                                          table +
+                                          'WHERE user_insta_id= $1 RETURNING user_insta_id',
+                                    [targetFollowingUserId],
+                              )
+                                    .then(result => console.log(result.rows[0]))
+                                    .catch(e => console.error(e.message));
+                        }
+                  },
+                  client,
+                  table,
+                  targetFollowingUserId,
+            );
+      } catch (e) {
+            if (e.message.includes(`navigation`)) {
+                  console.error(`navigation error`);
+            } else {
+                  console.error(`another error`, e.stack);
+            }
+      }
 }
 
 async function unfollowWhoNotFollowBackMain(page, id, pw, db, client) {
@@ -156,6 +177,7 @@ async function unfollowWhoNotFollowBackMain(page, id, pw, db, client) {
             console.log(page.url());
 
             const isHeFollowMeBack = await followMeBackChecker(id, page);
+
             console.log(`Is he follow me back?`, isHeFollowMeBack);
 
             if (isHeFollowMeBack) {

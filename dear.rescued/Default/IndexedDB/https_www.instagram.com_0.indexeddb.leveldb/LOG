@@ -1,16 +1,38 @@
-2020/02/04-14:12:01.047 4815 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2020/02/04-14:12:01.047 4815 Recovering log #69
-2020/02/04-14:12:01.050 4815 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000069.log 
-2020/02/04-14:12:19.461 4857 Compacting 2@0 + 1@1 files
-2020/02/04-14:12:19.481 4857 Generated table #72@0: 2080 keys, 121532 bytes
-2020/02/04-14:12:19.481 4857 Compacted 2@0 + 1@1 files => 121532 bytes
-2020/02/04-14:12:19.484 4857 compacted to: files[ 0 1 1 0 0 0 0 ]
-2020/02/04-14:12:19.484 4857 Delete type=2 #66
-2020/02/04-14:12:19.484 4857 Delete type=2 #68
-2020/02/04-14:12:19.484 4857 Delete type=2 #70
-2020/02/04-14:12:23.740 4857 Level-0 table #74: started
-2020/02/04-14:12:23.777 4857 Level-0 table #74: 1473382 bytes OK
-2020/02/04-14:12:23.799 4857 Delete type=0 #69
-2020/02/04-14:12:40.829 4857 Level-0 table #76: started
-2020/02/04-14:12:41.172 4857 Level-0 table #76: 1418694 bytes OK
-2020/02/04-14:12:41.758 4857 Delete type=0 #73
+2020/02/04-15:19:22.877 2d71 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/04-15:19:22.877 2d71 Recovering log #88
+2020/02/04-15:19:22.887 2d71 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000088.log 
+2020/02/04-15:19:30.516 2e25 Level-0 table #92: started
+2020/02/04-15:19:30.538 2e25 Level-0 table #92: 1267540 bytes OK
+2020/02/04-15:19:30.541 2e25 Delete type=0 #88
+2020/02/04-15:20:10.998 2e25 Compacting 3@0 + 1@1 files
+2020/02/04-15:20:11.020 2e25 Generated table #93@0: 2302 keys, 116323 bytes
+2020/02/04-15:20:11.020 2e25 Compacted 3@0 + 1@1 files => 116323 bytes
+2020/02/04-15:20:11.022 2e25 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/04-15:20:11.024 2e25 Delete type=2 #89
+2020/02/04-15:20:11.024 2e25 Delete type=2 #92
+2020/02/04-15:20:11.024 2e25 Delete type=2 #83
+2020/02/04-15:20:11.024 2e25 Delete type=2 #86
+2020/02/04-15:20:35.066 2e25 Level-0 table #95: started
+2020/02/04-15:20:35.085 2e25 Level-0 table #95: 1283382 bytes OK
+2020/02/04-15:20:35.088 2e25 Delete type=0 #91
+2020/02/04-15:21:35.812 2e25 Level-0 table #97: started
+2020/02/04-15:21:35.837 2e25 Level-0 table #97: 1226150 bytes OK
+2020/02/04-15:21:35.840 2e25 Delete type=0 #94
+2020/02/04-15:22:23.130 2e25 Level-0 table #99: started
+2020/02/04-15:22:23.149 2e25 Level-0 table #99: 1254649 bytes OK
+2020/02/04-15:22:23.153 2e25 Delete type=0 #96
+2020/02/04-15:23:11.807 2e25 Level-0 table #101: started
+2020/02/04-15:23:11.847 2e25 Level-0 table #101: 1225588 bytes OK
+2020/02/04-15:23:11.851 2e25 Delete type=0 #98
+2020/02/04-15:23:11.852 2e25 Compacting 4@0 + 1@1 files
+2020/02/04-15:23:11.877 2e25 Generated table #102@0: 3115 keys, 123592 bytes
+2020/02/04-15:23:11.877 2e25 Compacted 4@0 + 1@1 files => 123592 bytes
+2020/02/04-15:23:11.880 2e25 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/04-15:23:11.880 2e25 Delete type=2 #99
+2020/02/04-15:23:11.880 2e25 Delete type=2 #93
+2020/02/04-15:23:11.880 2e25 Delete type=2 #97
+2020/02/04-15:23:11.880 2e25 Delete type=2 #95
+2020/02/04-15:23:11.880 2e25 Delete type=2 #101
+2020/02/04-15:25:58.721 2e25 Level-0 table #104: started
+2020/02/04-15:25:58.747 2e25 Level-0 table #104: 1300664 bytes OK
+2020/02/04-15:25:58.750 2e25 Delete type=0 #100
