@@ -49,7 +49,6 @@ const {homeFeedLikeFunction} = require(`./functions/homefeedLikeFunction.js`);
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             userDataDir: `./${id}`,
             devtools: true,
-            slowMo: 500,
       });
 
       const page = await browser.newPage();

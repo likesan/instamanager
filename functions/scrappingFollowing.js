@@ -1,13 +1,14 @@
 const puppeteer = require('puppeteer');
 const {Client} = require('pg');
+const readLine = require('readline-sync');
 
 async function repeatScrollingDivToCompleteScrapping(
       id,
       page,
       usersFollowingCounts,
 ) {
-      await page.goto(`https://instagram.com/${id}`);
-      await toTheFollowingPopup(page);
+      //await page.goto(`https://instagram.com/${id}`);
+      await toTheFollowingPopup(page, id);
       await scrollDownUntilTheDivEnd(page, usersFollowingCounts);
 }
 
@@ -71,7 +72,7 @@ async function getUsersFollowingCounts(page) {
       var usersFollowingCounts = await page.$eval(
             `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a > span`,
             e =>
-                  // following int counts from str
+                  // following int count from str
                   parseInt(e.innerText.replace(/,/g, '')),
       );
       console.log(
@@ -145,6 +146,7 @@ async function insertScrappedFollowingArrayToDB(
             );
             for (var person of followingScrappedArray) {
                   client.query(
+			 
                         'INSERT INTO ' +
                               table +
                               ' (user_name, user_insta_id, profile_photo) VALUES ($1, $2, $3) returning user_insta_id',
@@ -174,29 +176,22 @@ async function insertScrappedFollowingArrayToDB(
       }
 }
 
-async function toTheFollowingPopup(page) {
+async function toTheFollowingPopup(page, id) {
       // on profile page -> following page with the small window
-      await Promise.all([
-            await page.waitForSelector(
-                  `#react-root > section > nav > div> div > div > div> div > div:nth-child(3) > a`,
-            ),
 
-            await page.click(
-                  `#react-root > section > nav > div> div > div > div> div > div:nth-child(3) > a`,
-            ),
-      ]);
+      await page.goto(`https://instagram.com/${id}`, {
+            waitUntil: 'domcontentloaded',
+      });
+      // click following count on profile
+      const followingPopupButtonSelector = `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a`;
 
-      console.log(`profile page clicked`);
+      await page.waitForSelector(followingPopupButtonSelector);
 
-      await Promise.all([
-            // click following counts on profile
-            await page.waitForSelector(
-                  `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a`,
-            ),
-            await page.click(
-                  `#react-root > section > main > div > header > section > ul > li:nth-child(3) > a`,
-            ),
-      ]);
+      await page.evaluate(
+            followingPopupButtonSelector =>
+                  document.querySelector(followingPopupButtonSelector).click(),
+            followingPopupButtonSelector,
+      );
 
       console.log(`following window opened`);
 }
@@ -257,6 +252,10 @@ scrappingFollowing = async (page, id, pw, db) => {
                   table = `insta_fans`;
 
                   break;
+            case 'dearrescued':
+                  table = `insta_fans`;
+
+                  break;
             default:
                   break;
       }
@@ -266,18 +265,38 @@ scrappingFollowing = async (page, id, pw, db) => {
             .then(results => console.table(results.rows))
             .catch(e => console.log(e));
 
-      await page.goto(
-            'https://www.instagram.com/accounts/login/?source=auth_switcher',
-            {
-                  waitUntil: [`domcontentloaded`],
-            },
+      const wantToDeleteRows = readLine.question(
+            `Do you want to delete all rows? y/n > `,
       );
 
-      console.log('puppeteer launch');
+      if (wantToDeleteRows == 'y') {
+            client.query('DELETE FROM ' + table + ' WHERE id>=0 RETURNING id')
+                  .then(res =>
+                        console.log(
+                              `👌 Successfully Deleted total ${res.rows.length} rows`,
+                        ),
+                  )
+                  .catch(e => console.error(e));
+      } else {
+            console.table(`\n✅ Will keep the db`);
+      }
 
-      await loginProc(page);
+      //    await page.goto(
+      //          'https://www.instagram.com/account/login/?source=auth_switcher',
+      //          {
+      //                waitUntil: [`domcontentloaded`],
+      //          },
+      //    );
 
-      await toTheFollowingPopup(page);
+      var url = page.url();
+      console.log(`\n📍 current url : `, url);
+
+      if (url.includes(`login`)) {
+            await loginProc(page);
+      }
+
+      console.count();
+      await toTheFollowingPopup(page, id);
 
       var usersFollowingCounts = await getUsersFollowingCounts(page);
 

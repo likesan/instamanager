@@ -12,13 +12,16 @@ function dbInitCheck(id, pw, db, client) {
             case `catsns`:
                   table = `insta_fans`;
                   break;
+            case `dearrescued`:
+                  table = `insta_fans`;
+                  break;
             default:
                   break;
       }
 
       client.connect()
             .then(() => console.log(`postgres db connected successfully`))
-            .then(() => client.query(`SELECT * FROM ${table}`))
+            .then(() => client.query('SELECT * FROM ${table}'))
             .then(results => console.table(`found a table`))
             .catch(e => console.log(e));
       return table;
@@ -58,7 +61,9 @@ async function followMeBackChecker(id, page) {
                         followListButton.click();
                   }, followListButtonSelector),
             ]);
-            await page.waitForSelector('body > div> div > div> ul > div',{timeout:5000});
+            await page.waitForSelector('body > div> div > div> ul > div', {
+                  timeout: 5000,
+            });
             const followingListDivHandler = await page.$(
                   `body > div> div > div> ul > div`,
             );
