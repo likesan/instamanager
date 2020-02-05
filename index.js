@@ -9,7 +9,7 @@ const {
 const {homeFeedLikeFunction} = require(`./functions/homefeedLikeFunction.js`);
 
 (async () => {
-      console.table([
+console.table([
             accountInfo.zena,
             accountInfo.dearRescued,
             accountInfo.sj,
@@ -49,7 +49,7 @@ const {homeFeedLikeFunction} = require(`./functions/homefeedLikeFunction.js`);
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             userDataDir: `./${id}`,
             devtools: true,
- slowMo : 400
+            slowMo: 400,
       });
 
       const page = await browser.newPage();
@@ -95,7 +95,7 @@ const {homeFeedLikeFunction} = require(`./functions/homefeedLikeFunction.js`);
 
       switch (modeChoose) {
             case `1`:
-                  homeFeedLikeFunction(page, url);
+                  homeFeedLikeFunction(page, url, client, db);
 
                   break;
 
