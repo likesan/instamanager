@@ -1,27 +1,24 @@
-2020/02/04-21:36:08.457 71d4 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2020/02/04-21:36:08.458 71d4 Recovering log #144
-2020/02/04-21:36:08.461 71d4 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000144.log 
-2020/02/04-21:36:29.448 7298 Level-0 table #148: started
-2020/02/04-21:36:29.466 7298 Level-0 table #148: 1339095 bytes OK
-2020/02/04-21:36:29.471 7298 Delete type=0 #144
-2020/02/04-21:36:55.692 7298 Level-0 table #150: started
-2020/02/04-21:36:55.722 7298 Level-0 table #150: 1347415 bytes OK
-2020/02/04-21:36:55.725 7298 Delete type=0 #147
-2020/02/04-21:37:20.053 7298 Level-0 table #152: started
-2020/02/04-21:37:20.092 7298 Level-0 table #152: 1350023 bytes OK
-2020/02/04-21:37:20.095 7298 Delete type=0 #149
-2020/02/04-21:37:20.097 7298 Compacting 4@0 + 1@1 files
-2020/02/04-21:37:20.126 7298 Generated table #153@0: 3862 keys, 141441 bytes
-2020/02/04-21:37:20.126 7298 Compacted 4@0 + 1@1 files => 141441 bytes
-2020/02/04-21:37:20.128 7298 compacted to: files[ 0 1 1 0 0 0 0 ]
-2020/02/04-21:37:20.128 7298 Delete type=2 #143
-2020/02/04-21:37:20.128 7298 Delete type=2 #148
-2020/02/04-21:37:20.128 7298 Delete type=2 #145
-2020/02/04-21:37:20.128 7298 Delete type=2 #152
-2020/02/04-21:37:20.128 7298 Delete type=2 #150
-2020/02/04-21:37:52.264 7298 Level-0 table #155: started
-2020/02/04-21:37:52.289 7298 Level-0 table #155: 1420697 bytes OK
-2020/02/04-21:37:52.291 7298 Delete type=0 #151
-2020/02/04-21:38:29.658 7298 Level-0 table #157: started
-2020/02/04-21:38:29.678 7298 Level-0 table #157: 1423491 bytes OK
-2020/02/04-21:38:29.682 7298 Delete type=0 #154
+2020/02/05-12:45:27.607 6415 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/05-12:45:27.607 6415 Recovering log #186
+2020/02/05-12:45:27.614 6415 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000186.log 
+2020/02/05-12:45:58.578 64f8 Level-0 table #191: started
+2020/02/05-12:45:58.597 64f8 Level-0 table #191: 1428555 bytes OK
+2020/02/05-12:45:58.600 64f8 Delete type=0 #186
+2020/02/05-12:46:26.970 64f8 Level-0 table #193: started
+2020/02/05-12:46:27.009 64f8 Level-0 table #193: 1432523 bytes OK
+2020/02/05-12:46:27.012 64f8 Delete type=0 #190
+2020/02/05-12:46:56.299 64f8 Level-0 table #195: started
+2020/02/05-12:46:57.040 64f8 Level-0 table #195: 1445440 bytes OK
+2020/02/05-12:46:57.548 64f8 Delete type=0 #192
+2020/02/05-12:47:22.349 64f8 Level-0 table #197: started
+2020/02/05-12:47:22.380 64f8 Level-0 table #197: 1399091 bytes OK
+2020/02/05-12:47:22.383 64f8 Delete type=0 #194
+2020/02/05-12:47:22.385 64f8 Compacting 4@0 + 1@1 files
+2020/02/05-12:47:22.429 64f8 Generated table #198@0: 4764 keys, 141954 bytes
+2020/02/05-12:47:22.429 64f8 Compacted 4@0 + 1@1 files => 141954 bytes
+2020/02/05-12:47:22.431 64f8 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/05-12:47:22.432 64f8 Delete type=2 #193
+2020/02/05-12:47:22.432 64f8 Delete type=2 #191
+2020/02/05-12:47:22.432 64f8 Delete type=2 #197
+2020/02/05-12:47:22.432 64f8 Delete type=2 #188
+2020/02/05-12:47:22.432 64f8 Delete type=2 #195

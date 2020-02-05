@@ -15,31 +15,44 @@ async function closeNoticeBox(page, url) {
 
 async function clickLikesWithScrollDown(page, countsLiked, grabLikesNumbers) {
       for (var l = 1; l <= grabLikesNumbers.length; l++) {
-            await page.evaluate(
-                  (l, countsLiked) => {
-                        console.log(l, `th of article chosen`);
-                        var like = document.evaluate(
-                              `/html/body/div[1]/section/main/section/div[2]/div[1]/div/article[${l}]/div[2]/section[1]/span[1]/button`,
-                              document,
-                              null,
-                              XPathResult.FIRST_ORDERED_NODE_TYPE,
-                              null,
-                        ).singleNodeValue;
+            console.log(l, `th of article chosen`);
+            await page.evaluate((l,countsLiked) => {
+                  var like = document.evaluate(
+                        `/html/body/div[1]/section/main/section/div[2]/div[1]/div/article[${l}]/div[2]/section[1]/span[1]/button`,
+                        document,
+                        null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE,
+                        null,
+                  ).singleNodeValue;
 
-                        try {
+                  var isLikeHeartNonClickedYet =
+                        like.children[0].getAttribute(`aria-label`) == 'Like';
+                  console.table([
+                        {
+                              'like label?': like.children[0].getAttribute(
+                                    `aria-label`,
+                              ),
+                        },
+                        {'like status': isLikeHeartNonClickedYet},
+                  ]);
+
+                  try {
+                        if (isLikeHeartNonClickedYet) {
                               like.focus();
                               like.click();
-                        } catch (e) {
-                              e.message.includes(`null`)
-                                    ? console.log(`null error comes out`)
-                                    : console.error(e);
+                              countsLiked++;
+                              console.log(`countsLiked`, countsLiked);
+                        } else {
+                              console.log(
+                                    `just skip the like click because the heart shouldn't be clicked`,
+                              );
                         }
-                        countsLiked++;
-                        console.log(`like clicked?`, countsLiked);
-                  },
-                  l,
-                  countsLiked,
-            );
+                  } catch (e) {
+                        e.message.includes(`null`)
+                              ? console.log(`null error comes out`)
+                              : console.error(e);
+                  }
+            }, (l, countsLiked));
             await page.evaluate(() => {
                   window.scrollBy(0, document.body.scrollHeight);
             });
@@ -50,9 +63,8 @@ async function homeFeedLikeFunction(page, url) {
       closeNoticeBox(page, url);
 
       console.log(`user choose 1, homefeed like will run.`);
-      var countsLiked = 0;
       var scrolledCounts = 0;
-
+      var countsLiked = 0;
       while (scrolledCounts <= 10) {
             const grabLikesNumbersSelector = `/html/body/div[1]/section/main/section/div[2]/div[1]/div/article/div[2]/section[1]/span[1]/button`;
             await page.waitForXPath(grabLikesNumbersSelector);
