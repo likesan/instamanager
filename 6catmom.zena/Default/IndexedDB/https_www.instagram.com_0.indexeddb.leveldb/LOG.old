@@ -1,0 +1,10 @@
+2020/02/06-17:15:34.077 2589 Reusing MANIFEST /Coding/instamanager/6catmom.zena/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/06-17:15:34.078 2589 Recovering log #300
+2020/02/06-17:15:34.092 2589 Reusing old log /Coding/instamanager/6catmom.zena/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000300.log 
+2020/02/06-17:18:50.775 2903 Level-0 table #304: started
+2020/02/06-17:18:51.184 2903 Level-0 table #304: 1373376 bytes OK
+2020/02/06-17:18:51.510 2903 Delete type=0 #300
+2020/02/06-17:18:51.511 2903 Compacting 4@0 + 1@1 files
+2020/02/06-17:18:51.932 2903 Generated table #305@0: 8299 keys, 220345 bytes
+2020/02/06-17:18:51.932 2903 Compacted 4@0 + 1@1 files => 220345 bytes
+2020/02/06-17:18:51.936 2903 compacted to: files[ 0 1 1 0 0 0 0 ]

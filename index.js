@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const {Client} = require('pg');
+const {Client, Pool} = require('pg');
 const accountInfo = require('./account_config.json');
 const readLine = require('readline-sync');
 const {scrappingFollowing} = require(`./functions/scrappingFollowing.js`);
@@ -8,13 +8,31 @@ const {
 } = require(`./functions/unfollowWhoNotFollowBack.js`);
 const {homeFeedLikeFunction} = require(`./functions/homefeedLikeFunction.js`);
 
+async function dbInit(db) {
+      const pool = new Pool({
+            user: 'postgres',
+            password: 'sjisgoodrich!',
+            host: 'localhost',
+            port: 5432,
+            database: `${db}`,
+      });
+
+      pool.on('error', (err, client) => {
+            console.error('Unexpected error', err);
+            process.exit(-1);
+      });
+
+      const client = await pool.connect();
+      return client;
+}
+
 (async () => {
-console.table([
+      console.table([
             accountInfo.zena,
             accountInfo.dearRescued,
             accountInfo.sj,
       ]);
-      var chooseAccount = parseInt(readLine.question(`Choose Account \n> `));
+      var chooseAccount = parseInt(readLine.question(`👥 Choose Account \n> `));
 
       var loginInfo = chooseAccount => {
             switch (chooseAccount) {
@@ -34,22 +52,20 @@ console.table([
       var pw = loginInfo(chooseAccount).pw;
       var db = loginInfo(chooseAccount).db;
 
-      var client = new Client({
-            user: 'postgres',
-            password: 'sjisgoodrich!',
-            host: 'localhost',
-            port: 5432,
-            database: `${db}`,
-      });
+      const client = await dbInit(db);
 
-      console.log(`loginInfo proc check`, loginInfo(chooseAccount));
+      client == (null || undefined)
+            ? console.log(`DB Init failed check dbInit function`)
+            : console.log(`successfully db client initialized`);
+
+      console.log(`🔐 loginInfo proc check`, loginInfo(chooseAccount));
 
       const browser = await puppeteer.launch({
             headless: false,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             userDataDir: `./${id}`,
             devtools: true,
-            slowMo: 400,
+            slowMo: 450,
       });
 
       const page = await browser.newPage();

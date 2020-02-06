@@ -1,6 +1,24 @@
-2020/02/05-14:07:04.371 25fb Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2020/02/05-14:07:04.372 25fb Recovering log #206
-2020/02/05-14:07:04.394 25fb Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000206.log 
-2020/02/05-14:07:15.331 263a Level-0 table #211: started
-2020/02/05-14:07:15.450 263a Level-0 table #211: 1466091 bytes OK
-2020/02/05-14:07:15.455 263a Delete type=0 #206
+2020/02/06-18:56:34.514 b19 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/06-18:56:34.514 b19 Recovering log #258
+2020/02/06-18:56:34.515 b19 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000258.log 
+2020/02/06-18:56:57.398 bf5 Level-0 table #262: started
+2020/02/06-18:56:57.417 bf5 Level-0 table #262: 1317688 bytes OK
+2020/02/06-18:56:57.421 bf5 Delete type=0 #258
+2020/02/06-18:57:16.506 bf5 Level-0 table #264: started
+2020/02/06-18:57:16.532 bf5 Level-0 table #264: 1329680 bytes OK
+2020/02/06-18:57:16.535 bf5 Delete type=0 #261
+2020/02/06-18:57:36.635 bf5 Level-0 table #266: started
+2020/02/06-18:57:36.653 bf5 Level-0 table #266: 1350154 bytes OK
+2020/02/06-18:57:36.656 bf5 Delete type=0 #263
+2020/02/06-18:57:36.657 bf5 Compacting 4@0 + 1@1 files
+2020/02/06-18:57:36.683 bf5 Generated table #267@0: 4830 keys, 138275 bytes
+2020/02/06-18:57:36.683 bf5 Compacted 4@0 + 1@1 files => 138275 bytes
+2020/02/06-18:57:36.685 bf5 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/06-18:57:36.685 bf5 Delete type=2 #266
+2020/02/06-18:57:36.685 bf5 Delete type=2 #256
+2020/02/06-18:57:36.685 bf5 Delete type=2 #259
+2020/02/06-18:57:36.685 bf5 Delete type=2 #264
+2020/02/06-18:57:36.685 bf5 Delete type=2 #262
+2020/02/06-18:57:57.048 bf5 Level-0 table #269: started
+2020/02/06-18:57:57.089 bf5 Level-0 table #269: 1329653 bytes OK
+2020/02/06-18:57:57.092 bf5 Delete type=0 #265

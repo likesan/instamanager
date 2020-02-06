@@ -1,0 +1,68 @@
+2020/02/06-17:56:44.690 602e Reusing MANIFEST /Coding/instamanager/6catmom.zena/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/06-17:56:44.691 602e Recovering log #303
+2020/02/06-17:56:44.713 602e Reusing old log /Coding/instamanager/6catmom.zena/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000303.log 
+2020/02/06-17:56:44.714 602e Delete type=2 #304
+2020/02/06-17:56:44.714 602e Delete type=2 #299
+2020/02/06-17:56:44.714 602e Delete type=2 #301
+2020/02/06-17:56:44.714 602e Delete type=2 #297
+2020/02/06-17:56:44.714 602e Delete type=2 #295
+2020/02/06-17:57:04.016 60f2 Level-0 table #308: started
+2020/02/06-17:57:04.169 60f2 Level-0 table #308: 1265302 bytes OK
+2020/02/06-17:57:04.172 60f2 Delete type=0 #303
+2020/02/06-17:57:19.587 60f2 Compacting 1@0 + 1@1 files
+2020/02/06-17:57:19.606 60f2 Generated table #309@0: 8305 keys, 190957 bytes
+2020/02/06-17:57:19.606 60f2 Compacted 1@0 + 1@1 files => 190957 bytes
+2020/02/06-17:57:19.609 60f2 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/06-17:57:19.609 60f2 Delete type=2 #308
+2020/02/06-17:57:19.609 60f2 Delete type=2 #305
+2020/02/06-17:57:21.960 60f2 Level-0 table #311: started
+2020/02/06-17:57:22.509 60f2 Level-0 table #311: 1374459 bytes OK
+2020/02/06-17:57:22.887 60f2 Delete type=0 #307
+2020/02/06-17:57:43.374 60f2 Level-0 table #313: started
+2020/02/06-17:57:43.410 60f2 Level-0 table #313: 1416653 bytes OK
+2020/02/06-17:57:43.414 60f2 Delete type=0 #310
+2020/02/06-17:58:06.592 60f2 Level-0 table #315: started
+2020/02/06-17:58:06.943 60f2 Level-0 table #315: 1410262 bytes OK
+2020/02/06-17:58:07.536 60f2 Delete type=0 #312
+2020/02/06-17:58:27.836 60f2 Level-0 table #317: started
+2020/02/06-17:58:27.865 60f2 Level-0 table #317: 1400797 bytes OK
+2020/02/06-17:58:27.868 60f2 Delete type=0 #314
+2020/02/06-17:58:27.869 60f2 Compacting 4@0 + 1@1 files
+2020/02/06-17:58:27.918 60f2 Generated table #318@0: 8323 keys, 180223 bytes
+2020/02/06-17:58:27.918 60f2 Compacted 4@0 + 1@1 files => 180223 bytes
+2020/02/06-17:58:27.920 60f2 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/06-17:58:27.920 60f2 Delete type=2 #311
+2020/02/06-17:58:27.920 60f2 Delete type=2 #313
+2020/02/06-17:58:27.920 60f2 Delete type=2 #309
+2020/02/06-17:58:27.920 60f2 Delete type=2 #317
+2020/02/06-17:58:27.920 60f2 Delete type=2 #315
+2020/02/06-17:58:50.241 60f2 Level-0 table #320: started
+2020/02/06-17:58:50.748 60f2 Level-0 table #320: 1405569 bytes OK
+2020/02/06-17:58:51.120 60f2 Delete type=0 #316
+2020/02/06-17:59:19.623 60f2 Level-0 table #322: started
+2020/02/06-17:59:19.657 60f2 Level-0 table #322: 1411062 bytes OK
+2020/02/06-17:59:19.695 60f2 Delete type=0 #319
+2020/02/06-17:59:46.862 60f2 Level-0 table #324: started
+2020/02/06-17:59:46.887 60f2 Level-0 table #324: 1405107 bytes OK
+2020/02/06-17:59:46.893 60f2 Delete type=0 #321
+2020/02/06-18:00:14.344 60f2 Level-0 table #326: started
+2020/02/06-18:00:14.436 60f2 Level-0 table #326: 1432502 bytes OK
+2020/02/06-18:00:14.440 60f2 Delete type=0 #323
+2020/02/06-18:00:14.442 60f2 Compacting 4@0 + 1@1 files
+2020/02/06-18:00:14.497 60f2 Generated table #327@0: 8350 keys, 221209 bytes
+2020/02/06-18:00:14.497 60f2 Compacted 4@0 + 1@1 files => 221209 bytes
+2020/02/06-18:00:14.499 60f2 compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/06-18:00:14.499 60f2 Delete type=2 #320
+2020/02/06-18:00:14.499 60f2 Delete type=2 #326
+2020/02/06-18:00:14.499 60f2 Delete type=2 #318
+2020/02/06-18:00:14.499 60f2 Delete type=2 #324
+2020/02/06-18:00:14.499 60f2 Delete type=2 #322
+2020/02/06-18:00:39.952 60f2 Level-0 table #329: started
+2020/02/06-18:00:40.663 60f2 Level-0 table #329: 1410002 bytes OK
+2020/02/06-18:00:41.522 60f2 Delete type=0 #325
+2020/02/06-18:01:05.199 60f2 Level-0 table #331: started
+2020/02/06-18:01:05.659 60f2 Level-0 table #331: 1431908 bytes OK
+2020/02/06-18:01:06.095 60f2 Delete type=0 #328
+2020/02/06-18:01:38.943 60f2 Level-0 table #333: started
+2020/02/06-18:01:39.314 60f2 Level-0 table #333: 1430404 bytes OK
+2020/02/06-18:01:39.416 60f2 Delete type=0 #330

@@ -1,9 +1,24 @@
-2020/02/05-14:11:35.633 2938 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2020/02/05-14:11:35.633 2938 Recovering log #210
-2020/02/05-14:11:35.641 2938 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000210.log 
-2020/02/05-14:11:50.696 2977 Level-0 table #214: started
-2020/02/05-14:11:50.720 2977 Level-0 table #214: 1424866 bytes OK
-2020/02/05-14:11:50.723 2977 Delete type=0 #210
-2020/02/05-14:12:10.589 2977 Level-0 table #216: started
-2020/02/05-14:12:10.625 2977 Level-0 table #216: 1342062 bytes OK
-2020/02/05-14:12:10.629 2977 Delete type=0 #213
+2020/02/06-19:19:33.385 1feb Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/06-19:19:33.385 1feb Recovering log #268
+2020/02/06-19:19:33.401 1feb Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000268.log 
+2020/02/06-19:19:53.871 20bb Level-0 table #272: started
+2020/02/06-19:19:54.469 20bb Level-0 table #272: 1356540 bytes OK
+2020/02/06-19:19:54.903 20bb Delete type=0 #268
+2020/02/06-19:20:17.158 20bb Level-0 table #274: started
+2020/02/06-19:20:17.207 20bb Level-0 table #274: 1429554 bytes OK
+2020/02/06-19:20:17.213 20bb Delete type=0 #271
+2020/02/06-19:20:40.755 20bb Level-0 table #276: started
+2020/02/06-19:20:40.820 20bb Level-0 table #276: 1442514 bytes OK
+2020/02/06-19:20:40.835 20bb Delete type=0 #273
+2020/02/06-19:20:40.838 20bb Compacting 4@0 + 1@1 files
+2020/02/06-19:20:40.906 20bb Generated table #277@0: 4830 keys, 142588 bytes
+2020/02/06-19:20:40.906 20bb Compacted 4@0 + 1@1 files => 142588 bytes
+2020/02/06-19:20:40.908 20bb compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/06-19:20:40.908 20bb Delete type=2 #274
+2020/02/06-19:20:40.908 20bb Delete type=2 #272
+2020/02/06-19:20:40.908 20bb Delete type=2 #276
+2020/02/06-19:20:40.908 20bb Delete type=2 #267
+2020/02/06-19:20:40.908 20bb Delete type=2 #269
+2020/02/06-19:21:00.207 20bb Level-0 table #279: started
+2020/02/06-19:21:00.240 20bb Level-0 table #279: 1397032 bytes OK
+2020/02/06-19:21:00.244 20bb Delete type=0 #275

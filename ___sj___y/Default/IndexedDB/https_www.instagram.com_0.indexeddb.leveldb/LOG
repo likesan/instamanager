@@ -1,0 +1,6 @@
+2020/02/06-19:02:56.217 1073 Reusing MANIFEST /Coding/instamanager/___sj___y/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/06-19:02:56.218 1073 Recovering log #493
+2020/02/06-19:02:56.218 1073 Reusing old log /Coding/instamanager/___sj___y/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000493.log 
+2020/02/06-19:06:58.287 13c0 Level-0 table #497: started
+2020/02/06-19:06:58.315 13c0 Level-0 table #497: 1367673 bytes OK
+2020/02/06-19:06:58.319 13c0 Delete type=0 #493
