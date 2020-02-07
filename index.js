@@ -8,6 +8,42 @@ const {
 } = require(`./functions/unfollowWhoNotFollowBack.js`);
 const {homeFeedLikeFunction} = require(`./functions/homefeedLikeFunction.js`);
 
+async function loginProcInFirst(page, id, pw) {
+      const loginScreenUrl = `https://www.instagram.com/accounts/login/?source=auth_switcher`;
+      await page.goto(loginScreenUrl, {waitUntil: `networkidle2`});
+
+      var url = await page.url();
+      if (url == loginScreenUrl) {
+            await Promise.all([
+                  page.waitForSelector('[name="username"]'),
+                  page.waitForSelector('[name="password"]'),
+                  page.waitForSelector(`[type="submit"]`),
+            ]);
+
+            await page.type(`[name="username"]`, id);
+            await page.type(`[name="password"]`, pw);
+
+            await Promise.all([
+                  page.click('[type="submit"]'),
+                  page.waitForNavigation({
+                        waituntil: 'networkidle0',
+                  }),
+            ]);
+
+            //turn off box
+            await Promise.all([
+                  page.waitForSelector(`body > div > div > div > div > button`),
+                  page.evaluate(() =>
+                        document
+                              .querySelector(
+                                    `body > div > div > div > div >button`,
+                              )
+                              .click(),
+                  ),
+            ]);
+      }
+}
+
 async function dbInit(db) {
       const pool = new Pool({
             user: 'postgres',
@@ -60,70 +96,49 @@ async function dbInit(db) {
 
       console.log(`🔐 loginInfo proc check`, loginInfo(chooseAccount));
 
-      const browser = await puppeteer.launch({
+      const puppeteerConfig = {
             headless: false,
             args: ['--no-sandbox', '--disable-setuid-sandbox'],
             userDataDir: `./${id}`,
             devtools: true,
-            slowMo: 450,
-      });
-
-      const page = await browser.newPage();
-      new Promise(res => browser.on(`targetcreated`, res));
-      const loginScreenUrl = `https://www.instagram.com/accounts/login/?source=auth_switcher`;
-      await page.goto(loginScreenUrl, {waitUntil: `networkidle2`});
-
-      var url = await page.url();
-      if (url == loginScreenUrl) {
-            await Promise.all([
-                  page.waitForSelector('[name="username"]'),
-                  page.waitForSelector('[name="password"]'),
-                  page.waitForSelector(`[type="submit"]`),
-            ]);
-
-            await page.type(`[name="username"]`, id);
-            await page.type(`[name="password"]`, pw);
-
-            await Promise.all([
-                  page.click('[type="submit"]'),
-                  page.waitForNavigation({
-                        waituntil: 'networkidle0',
-                  }),
-            ]);
-
-            //turn off box
-            await Promise.all([
-                  page.waitForSelector(`body > div > div > div > div > button`),
-                  page.evaluate(() =>
-                        document
-                              .querySelector(
-                                    `body > div > div > div > div >button`,
-                              )
-                              .click(),
-                  ),
-            ]);
-      }
+      };
 
       // USER INPUT
-      var modeChoose = readLine.question(
+      const modeChoose = readLine.question(
             `What do you want me to do?\n1. like on homefeed\n2. Make a db by all following list of my account\n3. Unfollow who doesn't follow me back.\n> `,
       );
 
       switch (modeChoose) {
             case `1`:
-                  homeFeedLikeFunction(page, url, client, db);
+                  puppeteerConfig.slowMo = 550;
+                  const browser = await puppeteer.launch(puppeteerConfig);
+                  const page = await browser.newPage();
 
+                  loginProcInFirst(page);
+
+                  homeFeedLikeFunction(page, client, db);
                   break;
-
             case `2`:
                   // scrapping all lists on following
                   console.log(`Scrapping 'Following list' started`);
+                  browser = await puppeteer.launch(puppeteerConfig);
+
+                  page = await browser.newPage();
+
+                  loginProcInFirst(page);
+
                   scrappingFollowing(page, id, pw, db);
 
                   break;
 
             case `3`:
                   console.log(`unfollow who doesn't follow me back`);
+                  browser = await puppeteer.launch(puppeteerConfig);
+
+                  page = await browser.newPage();
+
+                  loginProcInFirst(page);
+
                   unfollowWhoNotFollowBackMain(page, id, pw, db, client);
                   break;
             default:

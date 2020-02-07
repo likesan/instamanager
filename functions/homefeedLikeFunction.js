@@ -107,7 +107,8 @@ async function clickLikesWithScrollDown(
       }
 }
 
-async function homeFeedLikeFunction(page, url, client, db) {
+async function homeFeedLikeFunction(page, client, db) {
+      const url = page.url();
       dbChecker(client, db);
       closeNoticeBox(page, url);
 

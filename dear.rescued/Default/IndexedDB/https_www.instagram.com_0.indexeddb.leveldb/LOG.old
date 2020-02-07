@@ -1,24 +1,58 @@
-2020/02/06-18:56:34.514 b19 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2020/02/06-18:56:34.514 b19 Recovering log #258
-2020/02/06-18:56:34.515 b19 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000258.log 
-2020/02/06-18:56:57.398 bf5 Level-0 table #262: started
-2020/02/06-18:56:57.417 bf5 Level-0 table #262: 1317688 bytes OK
-2020/02/06-18:56:57.421 bf5 Delete type=0 #258
-2020/02/06-18:57:16.506 bf5 Level-0 table #264: started
-2020/02/06-18:57:16.532 bf5 Level-0 table #264: 1329680 bytes OK
-2020/02/06-18:57:16.535 bf5 Delete type=0 #261
-2020/02/06-18:57:36.635 bf5 Level-0 table #266: started
-2020/02/06-18:57:36.653 bf5 Level-0 table #266: 1350154 bytes OK
-2020/02/06-18:57:36.656 bf5 Delete type=0 #263
-2020/02/06-18:57:36.657 bf5 Compacting 4@0 + 1@1 files
-2020/02/06-18:57:36.683 bf5 Generated table #267@0: 4830 keys, 138275 bytes
-2020/02/06-18:57:36.683 bf5 Compacted 4@0 + 1@1 files => 138275 bytes
-2020/02/06-18:57:36.685 bf5 compacted to: files[ 0 1 1 0 0 0 0 ]
-2020/02/06-18:57:36.685 bf5 Delete type=2 #266
-2020/02/06-18:57:36.685 bf5 Delete type=2 #256
-2020/02/06-18:57:36.685 bf5 Delete type=2 #259
-2020/02/06-18:57:36.685 bf5 Delete type=2 #264
-2020/02/06-18:57:36.685 bf5 Delete type=2 #262
-2020/02/06-18:57:57.048 bf5 Level-0 table #269: started
-2020/02/06-18:57:57.089 bf5 Level-0 table #269: 1329653 bytes OK
-2020/02/06-18:57:57.092 bf5 Delete type=0 #265
+2020/02/07-09:52:10.391 3a23 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
+2020/02/07-09:52:10.391 3a23 Recovering log #278
+2020/02/07-09:52:10.404 3a23 Reusing old log /Coding/instamanager/dear.rescued/Default/IndexedDB/https_www.instagram.com_0.indexeddb.leveldb/000278.log 
+2020/02/07-09:52:22.420 3acf Level-0 table #282: started
+2020/02/07-09:52:22.439 3acf Level-0 table #282: 1401401 bytes OK
+2020/02/07-09:52:22.442 3acf Delete type=0 #278
+2020/02/07-09:52:42.191 3acf Compacting 2@0 + 1@1 files
+2020/02/07-09:52:42.209 3acf Generated table #283@0: 4830 keys, 154386 bytes
+2020/02/07-09:52:42.209 3acf Compacted 2@0 + 1@1 files => 154386 bytes
+2020/02/07-09:52:42.211 3acf compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/07-09:52:42.211 3acf Delete type=2 #277
+2020/02/07-09:52:42.211 3acf Delete type=2 #282
+2020/02/07-09:52:42.211 3acf Delete type=2 #279
+2020/02/07-09:52:44.012 3acf Level-0 table #285: started
+2020/02/07-09:52:44.031 3acf Level-0 table #285: 1422041 bytes OK
+2020/02/07-09:52:44.033 3acf Delete type=0 #281
+2020/02/07-09:53:05.122 3acf Level-0 table #287: started
+2020/02/07-09:53:05.143 3acf Level-0 table #287: 1467858 bytes OK
+2020/02/07-09:53:05.146 3acf Delete type=0 #284
+2020/02/07-09:53:27.383 3acf Level-0 table #289: started
+2020/02/07-09:53:27.429 3acf Level-0 table #289: 1418326 bytes OK
+2020/02/07-09:53:27.433 3acf Delete type=0 #286
+2020/02/07-09:53:57.801 3acf Level-0 table #291: started
+2020/02/07-09:53:57.819 3acf Level-0 table #291: 1473139 bytes OK
+2020/02/07-09:53:57.826 3acf Delete type=0 #288
+2020/02/07-09:53:57.827 3acf Compacting 4@0 + 1@1 files
+2020/02/07-09:53:57.883 3acf Generated table #292@0: 4830 keys, 131893 bytes
+2020/02/07-09:53:57.883 3acf Compacted 4@0 + 1@1 files => 131893 bytes
+2020/02/07-09:53:57.886 3acf compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/07-09:53:57.886 3acf Delete type=2 #287
+2020/02/07-09:53:57.886 3acf Delete type=2 #289
+2020/02/07-09:53:57.886 3acf Delete type=2 #285
+2020/02/07-09:53:57.886 3acf Delete type=2 #291
+2020/02/07-09:53:57.886 3acf Delete type=2 #283
+2020/02/07-09:54:27.484 3acf Level-0 table #294: started
+2020/02/07-09:54:27.508 3acf Level-0 table #294: 1420814 bytes OK
+2020/02/07-09:54:27.511 3acf Delete type=0 #290
+2020/02/07-09:54:57.378 3acf Level-0 table #296: started
+2020/02/07-09:54:57.409 3acf Level-0 table #296: 1414580 bytes OK
+2020/02/07-09:54:57.411 3acf Delete type=0 #293
+2020/02/07-09:55:24.200 3acf Level-0 table #298: started
+2020/02/07-09:55:24.234 3acf Level-0 table #298: 1430031 bytes OK
+2020/02/07-09:55:24.237 3acf Delete type=0 #295
+2020/02/07-09:55:57.097 3acf Level-0 table #300: started
+2020/02/07-09:55:57.143 3acf Level-0 table #300: 1420798 bytes OK
+2020/02/07-09:55:57.146 3acf Delete type=0 #297
+2020/02/07-09:55:57.147 3acf Compacting 4@0 + 1@1 files
+2020/02/07-09:55:57.180 3acf Generated table #301@0: 4842 keys, 132258 bytes
+2020/02/07-09:55:57.180 3acf Compacted 4@0 + 1@1 files => 132258 bytes
+2020/02/07-09:55:57.183 3acf compacted to: files[ 0 1 1 0 0 0 0 ]
+2020/02/07-09:55:57.183 3acf Delete type=2 #292
+2020/02/07-09:55:57.183 3acf Delete type=2 #300
+2020/02/07-09:55:57.183 3acf Delete type=2 #294
+2020/02/07-09:55:57.183 3acf Delete type=2 #296
+2020/02/07-09:55:57.183 3acf Delete type=2 #298
+2020/02/07-09:56:26.642 3acf Level-0 table #303: started
+2020/02/07-09:56:27.306 3acf Level-0 table #303: 1421550 bytes OK
+2020/02/07-09:56:27.696 3acf Delete type=0 #299
