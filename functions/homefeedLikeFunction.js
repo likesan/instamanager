@@ -1,13 +1,9 @@
 async function dbChecker(client, db) {
       const result = await client.query(`SELECT * FROM insta_logs`);
-      if (result.rows.length > 0) {
-            console.log(`nothing in db 'insta_logs' `);
-      } else {
             console.log(
                   `✅ Last log check`,
                   result.rows.forEach(row => console.log(row)),
             );
-      }
 }
 
 async function closeNoticeBox(page, url) {

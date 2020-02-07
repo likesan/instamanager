@@ -1,5 +1,3 @@
-2020/02/07-09:52:05.988 3a23 Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/Local Storage/leveldb/MANIFEST-000001
-2020/02/07-09:52:05.988 3a23 Recovering log #43
-2020/02/07-09:52:05.989 3a23 Level-0 table #46: started
-2020/02/07-09:52:05.992 3a23 Level-0 table #46: 8536 bytes OK
-2020/02/07-09:52:05.994 3a23 Delete type=0 #43
+2020/02/07-15:12:30.508 5ed Reusing MANIFEST /Coding/instamanager/dear.rescued/Default/Local Storage/leveldb/MANIFEST-000001
+2020/02/07-15:12:30.508 5ed Recovering log #3
+2020/02/07-15:12:30.508 5ed Reusing old log /Coding/instamanager/dear.rescued/Default/Local Storage/leveldb/000003.log 

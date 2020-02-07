@@ -113,20 +113,15 @@ async function dbInit(db) {
                   puppeteerConfig.slowMo = 550;
                   const browser = await puppeteer.launch(puppeteerConfig);
                   const page = await browser.newPage();
-
-                  loginProcInFirst(page);
-
+                  loginProcInFirst(page, id, pw);
                   homeFeedLikeFunction(page, client, db);
                   break;
             case `2`:
                   // scrapping all lists on following
                   console.log(`Scrapping 'Following list' started`);
                   browser = await puppeteer.launch(puppeteerConfig);
-
                   page = await browser.newPage();
-
-                  loginProcInFirst(page);
-
+                  loginProcInFirst(page, id, pw);
                   scrappingFollowing(page, id, pw, db);
 
                   break;
@@ -134,11 +129,8 @@ async function dbInit(db) {
             case `3`:
                   console.log(`unfollow who doesn't follow me back`);
                   browser = await puppeteer.launch(puppeteerConfig);
-
                   page = await browser.newPage();
-
-                  loginProcInFirst(page);
-
+                  loginProcInFirst(page, id, pw);
                   unfollowWhoNotFollowBackMain(page, id, pw, db, client);
                   break;
             default:
